@@ -7,6 +7,7 @@ import Layout from "@components/Layout";
 import MDXRenderer from "@components/MDX";
 import Progress from "@components/Progress";
 import Section from "@components/Section";
+import Disqus from "@components/Disqus";
 import Subscription from "@components/Subscription";
 
 import mediaqueries from "@styles/media";
@@ -44,7 +45,7 @@ const Article: Template = ({ pageContext, location }) => {
   const results = useStaticQuery(siteQuery);
   const name = results.allSite.edges[0].node.siteMetadata.name;
 
-  const { article, authors, mailchimp, next } = pageContext;
+  const { article, authors, disqus, mailchimp, next } = pageContext;
 
   useEffect(() => {
     const calculateBodySize = throttle(() => {
@@ -103,6 +104,7 @@ const Article: Template = ({ pageContext, location }) => {
           <FooterSpacer />
         </NextArticle>
       )}
+      {disqus && <Disqus article={article}/>}
     </Layout>
   );
 };
@@ -129,7 +131,7 @@ const ArticleBody = styled.article`
   ${mediaqueries.desktop`
     padding-left: 53px;
   `}
-  
+
   ${mediaqueries.tablet`
     padding: 70px 0 80px;
   `}

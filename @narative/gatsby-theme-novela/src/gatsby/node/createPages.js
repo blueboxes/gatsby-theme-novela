@@ -55,6 +55,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
     pageLength = 6,
     sources = {},
     mailchimp = '',
+    disqus = '',
   } = themeOptions;
 
   // Defaulting to look at the local MDX files as sources.
@@ -215,6 +216,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
         title: article.title,
         mailchimp,
         next,
+        disqus,
       },
     });
   });
