@@ -94,6 +94,7 @@ const Article: Template = ({ pageContext, location }) => {
       <ArticleBody ref={contentSectionRef}>
         <MDXRenderer content={article.body}>
           <ArticleShare />
+          {disqus && <Disqus article={article}/>}
         </MDXRenderer>
       </ArticleBody>
       {mailchimp && article.subscription && <Subscription />}
@@ -104,7 +105,6 @@ const Article: Template = ({ pageContext, location }) => {
           <FooterSpacer />
         </NextArticle>
       )}
-      {disqus && <Disqus article={article}/>}
     </Layout>
   );
 };
