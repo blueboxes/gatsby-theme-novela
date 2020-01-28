@@ -5,6 +5,7 @@ interface ArticleTagsProps {
 }
 
 const ArticleTags: React.FC<ArticleTagsProps> = ({ tags }) => {
+  // TODO(eugene): need implements tag!
   return <span>{tags}</span>;
 };
 

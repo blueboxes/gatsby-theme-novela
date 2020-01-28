@@ -13,14 +13,9 @@ import ArticleTags from './Article.Tags';
 interface ArticleHeroProps {
   article: IArticle;
   authors: IAuthor[];
-  tags: string[];
 }
 
-const ArticleHero: React.FC<ArticleHeroProps> = ({
-  article,
-  authors,
-  tags,
-}) => {
+const ArticleHero: React.FC<ArticleHeroProps> = ({ article, authors }) => {
   const hasCoAUthors = authors.length > 1;
   const hasHeroImage =
     article.hero &&
@@ -33,7 +28,7 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({
         <HeroHeading>{article.title}</HeroHeading>
         <HeroSubtitle hasCoAUthors={hasCoAUthors}>
           <ArticleAuthors authors={authors} />
-          <ArticleTags tags={tags} />
+          <ArticleTags tags={article.tags} />
           <ArticleMeta hasCoAUthors={hasCoAUthors}>
             {article.date} · {article.timeToRead} min read
           </ArticleMeta>

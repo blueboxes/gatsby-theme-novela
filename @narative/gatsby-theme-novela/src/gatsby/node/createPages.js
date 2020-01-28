@@ -262,6 +262,8 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
   const uniqueTags = [...new Set(tags)];
 
   if (uniqueTags.length > 0) {
+    // TODO(eugene): need to implements, [/tag] page.
+
     /**
      * Creating main tag pages example
      *  /tag/gatsby

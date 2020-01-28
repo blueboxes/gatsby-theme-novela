@@ -116,7 +116,8 @@ const ListItem: React.FC<ArticlesListItemProps> = ({ article, narrow }) => {
             {article.excerpt}
           </Excerpt>
           <MetaData>
-            {article.date} · {article.timeToRead} min read
+            {/* TODO(eugene): need implements show tags... */}
+            {article.tags} · {article.date} · {article.timeToRead} min read
           </MetaData>
         </div>
       </Item>
@@ -175,7 +176,7 @@ const listTile = p => css`
 
   ${mediaqueries.tablet`
     grid-template-columns: 1fr;
-    
+
     &:not(:last-child) {
       margin-bottom: 0;
     }
@@ -289,11 +290,11 @@ const Title = styled(Headings.h2)`
   `}
 
   ${mediaqueries.tablet`
-    font-size: 24px;  
+    font-size: 24px;
   `}
 
   ${mediaqueries.phablet`
-    font-size: 22px;  
+    font-size: 22px;
     padding: 30px 20px 0;
     margin-bottom: 10px;
     -webkit-line-clamp: 3;
