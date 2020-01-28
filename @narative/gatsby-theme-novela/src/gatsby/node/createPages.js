@@ -13,6 +13,7 @@ const templates = {
   articles: path.resolve(templatesDirectory, 'articles.template.tsx'),
   article: path.resolve(templatesDirectory, 'article.template.tsx'),
   author: path.resolve(templatesDirectory, 'author.template.tsx'),
+  tag: path.resolve(templatesDirectory, 'tag.template.tsx'),
 };
 
 const query = require('../data/data.query');
@@ -51,6 +52,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
     rootPath,
     basePath = '/',
     authorsPath = '/authors',
+    tagPath = '/tag',
     authorsPage = true,
     pageLength = 6,
     sources = {},
@@ -210,6 +212,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
       context: {
         article,
         authors: authorsThatWroteTheArticle,
+        tags: article.tags,
         basePath,
         slug: article.slug,
         id: article.id,
@@ -244,6 +247,53 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
         buildPath: buildPaginatedPath,
         context: {
           author,
+          originalPath: path,
+          skip: pageLength,
+          limit: pageLength,
+        },
+      });
+    });
+  }
+
+  const tags = articles.reduce((acc, article) => {
+    return [...acc, ...article.tags];
+  }, []);
+
+  const uniqueTags = [...new Set(tags)];
+
+  if (uniqueTags.length > 0) {
+    /**
+     * Creating main tag pages example
+     *  /tag/gatsby
+     *  /tag/gatsby/2
+     */
+    log('Creating', 'tag pages');
+    uniqueTags.forEach(tag => {
+      let allArticlesOfTheTag;
+      try {
+        allArticlesOfTheTag = articles.filter(article =>
+          article.tags.includes(tag),
+        );
+      } catch (error) {
+        throw new Error(`
+          We could not find the Articles for: "${tag}".
+          Double check the tags field is specified in your post and the name matches a specified tag.
+          Tag name: ${tag}
+          ${error}
+        `);
+      }
+
+      const path = slugify(tag, tagPath);
+
+      createPaginatedPages({
+        edges: allArticlesOfTheTag,
+        pathPrefix: path,
+        createPage,
+        pageLength,
+        pageTemplate: templates.tag,
+        buildPath: buildPaginatedPath,
+        context: {
+          tag,
           originalPath: path,
           skip: pageLength,
           limit: pageLength,

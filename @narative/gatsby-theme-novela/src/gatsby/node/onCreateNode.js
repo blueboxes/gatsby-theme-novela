@@ -93,6 +93,7 @@ module.exports = ({ node, actions, getNode, createNodeId }, themeOptions) => {
       ),
       title: node.frontmatter.title,
       subscription: node.frontmatter.subscription !== false,
+      tags: node.frontmatter.tags || [],
     };
 
     createNode({
