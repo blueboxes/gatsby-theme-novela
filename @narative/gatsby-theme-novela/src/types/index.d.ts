@@ -79,6 +79,7 @@ export type Template = React.FC<{
     disqus: boolean;
     mailchimp: boolean;
     next: IArticle[];
+    tags: boolean;
   };
   location: Location;
 }>

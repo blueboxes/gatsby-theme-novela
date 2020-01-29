@@ -16,8 +16,8 @@ function TagPage({ location, pageContext }) {
     <Layout>
       <SEO pathname={location.pathname} title={tag} />
       <Section narrow>
-        <TagHero tag={tag}/>
-        <AuthorArticles articles={articles} />
+        <TagHero tag={tag} />
+        <AuthorArticles articles={articles} tags={true} />
         <AuthorPaginator>
           <Paginator {...pageContext} />
         </AuthorPaginator>

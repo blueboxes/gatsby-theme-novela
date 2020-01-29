@@ -15,6 +15,7 @@ export default TagHero;
 
 const Hero = styled.div`
   position: relative;
+  max-width: 100%;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -24,6 +25,8 @@ const Hero = styled.div`
 `;
 
 const Heading = styled.h1`
+  max-width: 100%;
+  word-wrap: break-word;
   font-size: 38px;
   font-family: ${p => p.theme.fonts.sansSerif};
   color: ${p => p.theme.colors.primary};

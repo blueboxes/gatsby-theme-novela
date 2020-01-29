@@ -56,8 +56,9 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
     authorsPage = true,
     pageLength = 6,
     sources = {},
-    mailchimp = '',
-    disqus = '',
+    mailchimp = false,
+    disqus = false,
+    tags = false,
   } = themeOptions;
 
   // Defaulting to look at the local MDX files as sources.
@@ -165,6 +166,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
       basePath,
       skip: pageLength,
       limit: pageLength,
+      tags,
     },
   });
 
@@ -212,7 +214,6 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
       context: {
         article,
         authors: authorsThatWroteTheArticle,
-        tags: article.tags,
         basePath,
         slug: article.slug,
         id: article.id,
@@ -220,6 +221,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
         mailchimp,
         next,
         disqus,
+        tags,
       },
     });
   });
@@ -250,57 +252,63 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
           originalPath: path,
           skip: pageLength,
           limit: pageLength,
+          tags,
         },
       });
     });
   }
 
-  const tags = articles.reduce((acc, article) => {
-    return [...acc, ...article.tags];
-  }, []);
+  if (tags) {
+    const uniqueTags = [
+      ...new Set(
+        articles.reduce((acc, article) => {
+          return [...acc, ...article.tags];
+        }, []),
+      ),
+    ];
 
-  const uniqueTags = [...new Set(tags)];
+    if (uniqueTags.length > 0) {
+      // TODO(eugene): need to implements, [/tag] page.
+      log('Creating', 'tags pages');
 
-  if (uniqueTags.length > 0) {
-    // TODO(eugene): need to implements, [/tag] page.
+      /**
+       * Creating main tag pages example
+       *  /tag/gatsby
+       *  /tag/gatsby/2
+       */
+      log('Creating', 'tag pages');
+      uniqueTags.forEach(tag => {
+        let allArticlesOfTheTag;
+        try {
+          allArticlesOfTheTag = articles.filter(article =>
+            article.tags.includes(tag),
+          );
+        } catch (error) {
+          throw new Error(`
+            We could not find the Articles for: "${tag}".
+            Double check the tags field is specified in your post and the name matches a specified tag.
+            Tag name: ${tag}
+            ${error}
+          `);
+        }
 
-    /**
-     * Creating main tag pages example
-     *  /tag/gatsby
-     *  /tag/gatsby/2
-     */
-    log('Creating', 'tag pages');
-    uniqueTags.forEach(tag => {
-      let allArticlesOfTheTag;
-      try {
-        allArticlesOfTheTag = articles.filter(article =>
-          article.tags.includes(tag),
-        );
-      } catch (error) {
-        throw new Error(`
-          We could not find the Articles for: "${tag}".
-          Double check the tags field is specified in your post and the name matches a specified tag.
-          Tag name: ${tag}
-          ${error}
-        `);
-      }
+        const path = slugify(tag, tagPath);
 
-      const path = slugify(tag, tagPath);
-
-      createPaginatedPages({
-        edges: allArticlesOfTheTag,
-        pathPrefix: path,
-        createPage,
-        pageLength,
-        pageTemplate: templates.tag,
-        buildPath: buildPaginatedPath,
-        context: {
-          tag,
-          originalPath: path,
-          skip: pageLength,
-          limit: pageLength,
-        },
+        createPaginatedPages({
+          edges: allArticlesOfTheTag,
+          pathPrefix: path,
+          createPage,
+          pageLength,
+          pageTemplate: templates.tag,
+          buildPath: buildPaginatedPath,
+          context: {
+            tag,
+            originalPath: path,
+            skip: pageLength,
+            limit: pageLength,
+          },
+        });
       });
-    });
+    }
   }
 };
