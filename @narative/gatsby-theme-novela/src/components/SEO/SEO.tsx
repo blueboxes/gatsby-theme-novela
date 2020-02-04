@@ -149,7 +149,7 @@ const SEO: React.FC<HelmetProps> = ({
         href="https://fonts.googleapis.com/css?family=Merriweather:700,700i&display=swap"
         rel="stylesheet"
       />
-      <link rel="canonical" href={canonicalUrl} />
+      <link rel="canonical" href={canonicalUrl || url} />
       {children}
     </Helmet>
   );
