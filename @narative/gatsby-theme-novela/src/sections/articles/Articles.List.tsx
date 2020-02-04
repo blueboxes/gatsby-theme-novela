@@ -267,7 +267,7 @@ const Item = styled.div<{ gridLayout: string }>`
   position: relative;
   display: grid;
   max-width: 100%;
-  height: 100%;
+  max-height: 100%;
   top: 0;
   left: 0;
   border-radius: 5px;

@@ -45,7 +45,7 @@ const Article: Template = ({ pageContext, location }) => {
   const results = useStaticQuery(siteQuery);
   const name = results.allSite.edges[0].node.siteMetadata.name;
 
-  const { article, authors, disqus, mailchimp, next, tags } = pageContext;
+  const { article, authors, disqus mailchimp, next, tags } = pageContext;
 
   useEffect(() => {
     const calculateBodySize = throttle(() => {

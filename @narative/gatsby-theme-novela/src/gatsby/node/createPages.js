@@ -61,6 +61,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
     tags = false,
   } = themeOptions;
 
+  // console.log(sources);
   // Defaulting to look at the local MDX files as sources.
   const { local = true, contentful = false } = sources;
 
@@ -218,6 +219,7 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
         slug: article.slug,
         id: article.id,
         title: article.title,
+        canonicalUrl: article.canonical_url,
         mailchimp,
         next,
         disqus,
@@ -261,15 +263,15 @@ module.exports = async ({ actions: { createPage }, graphql }, themeOptions) => {
   if (tags) {
     const uniqueTags = [
       ...new Set(
-        articles.reduce((acc, article) => {
-          return [...acc, ...article.tags];
+        articles.reduce((accumulator, article) => {
+          return [...accumulator, ...article.tags];
         }, []),
       ),
     ];
 
     if (uniqueTags.length > 0) {
-      // TODO(eugene): need to implements, [/tag] page.
-      log('Creating', 'tags pages');
+      // TODO: need to implements, [/tag] page.
+      // log('Creating', 'tags pages');
 
       /**
        * Creating main tag pages example

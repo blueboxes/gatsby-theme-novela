@@ -24,7 +24,8 @@ const TagsList: React.FC<TagsListProps> = ({ tags }) => {
 
 export default TagsList;
 
-// MARK: need to refactoring
+// TODO: I don't know what is better code?! maybe create some interface?
+// eg. ITags{tags:[ITag]} & ITag{tag:string, path:string}
 function slugify(string, base) {
   const slug = string
     .toLowerCase()
@@ -37,10 +38,11 @@ function slugify(string, base) {
 }
 
 const ListItem: React.FC<string> = ({ tag }) => {
-  // MARK: need to refactoring
+  // TODO: I don't know what is better code?! maybe create some interface?
+  // eg. ITags{tags:[ITag]} & ITag{tag:string, path:string}
   const tagPath = slugify(tag, '/tag');
 
-  // TODO(eugene): need implements show tags...
+  // MARK: You can implements better UI.
   return (
     <TagLink to={tagPath}>
       <TagBox>{tag}</TagBox>

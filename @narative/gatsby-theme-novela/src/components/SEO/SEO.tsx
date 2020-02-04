@@ -27,9 +27,10 @@ interface HelmetProps {
   pathname: string;
   image?: string;
   url?: string;
-  canonical?: string;
+  canonicalUrl?: string;
   published?: string;
   timeToRead?: string;
+  tags?: string[];
 }
 
 const seoQuery = graphql`
@@ -74,8 +75,9 @@ const SEO: React.FC<HelmetProps> = ({
   url,
   image,
   published,
-  pathname,
   timeToRead,
+  canonicalUrl,
+  tags,
 }) => {
   const results = useStaticQuery(seoQuery);
   const site = results.allSite.edges[0].node.siteMetadata;
@@ -100,10 +102,6 @@ const SEO: React.FC<HelmetProps> = ({
     {
       name: 'theme-color',
       content: '#fff',
-    },
-    {
-      rel: 'canonical',
-      href: fullURL(pathname),
     },
     { itemprop: 'name', content: title || site.title },
     { itemprop: 'description', content: description || site.description },
@@ -136,6 +134,10 @@ const SEO: React.FC<HelmetProps> = ({
     metaTags.push({ name: 'twitter:data1', value: `${timeToRead} min read` });
   }
 
+  if (tags) {
+    metaTags.push({ name: 'keywords', content: tags.join(',') });
+  }
+
   return (
     <Helmet
       title={title || site.title}
@@ -147,6 +149,7 @@ const SEO: React.FC<HelmetProps> = ({
         href="https://fonts.googleapis.com/css?family=Merriweather:700,700i&display=swap"
         rel="stylesheet"
       />
+      <link rel="canonical" href={canonicalUrl} />
       {children}
     </Helmet>
   );
