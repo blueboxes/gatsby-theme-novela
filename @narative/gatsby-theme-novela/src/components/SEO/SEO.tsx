@@ -121,6 +121,8 @@ const SEO: React.FC<HelmetProps> = ({
     { property: 'og:title', content: title || site.title },
     { property: 'og:url', content: url },
     { property: 'og:image', content: fullURL(image) },
+    { property: 'og:image:with', content: '1024' },
+    { property: 'og:image:height', content: '1024' },
     { property: 'og:description', content: description || site.description },
     { property: 'og:site_name', content: site.name },
   ];
