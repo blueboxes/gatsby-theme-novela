@@ -30,6 +30,7 @@ interface HelmetProps {
   canonicalUrl?: string;
   published?: string;
   timeToRead?: string;
+  tags?: string[];
 }
 
 const seoQuery = graphql`
@@ -77,6 +78,7 @@ const SEO: React.FC<HelmetProps> = ({
   published,
   timeToRead,
   canonicalUrl,
+  tags,
 }) => {
   const results = useStaticQuery(seoQuery);
   const site = results.allSite.edges[0].node.siteMetadata;
@@ -126,7 +128,9 @@ const SEO: React.FC<HelmetProps> = ({
 
     { property: 'og:title', content: title || site.title },
     { property: 'og:url', content: url },
-    { property: 'og:image', content: image },
+    { property: 'og:image', content: fullURL(image) },
+    { property: 'og:image:with', content: '1024' },
+    { property: 'og:image:height', content: '1024' },
     { property: 'og:description', content: description || site.description },
     { property: 'og:site_name', content: site.name },
   ];
@@ -140,6 +144,10 @@ const SEO: React.FC<HelmetProps> = ({
     metaTags.push({ name: 'twitter:data1', value: `${timeToRead} min read` });
   }
 
+  if (tags) {
+    metaTags.push({ name: 'keywords', content: tags.join(',') });
+  }
+
   return (
     <Helmet
       title={title || site.title}
@@ -147,7 +155,11 @@ const SEO: React.FC<HelmetProps> = ({
       script={themeUIDarkModeWorkaroundScript}
       meta={metaTags}
     >
-      <link rel="canonical" href={canonicalUrl} />
+      <link
+        href="https://fonts.googleapis.com/css?family=Merriweather:700,700i&display=swap"
+        rel="stylesheet"
+      />
+      <link rel="canonical" href={canonicalUrl || url} />
       {children}
     </Helmet>
   );

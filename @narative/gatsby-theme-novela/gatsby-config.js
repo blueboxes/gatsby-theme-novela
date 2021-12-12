@@ -180,6 +180,8 @@ module.exports = ({
               }
               `,
             output: '/rss.xml',
+            /// TODO: how to set custom title
+            title: "GHieut Site's RSS Feed",
           },
         ],
       },

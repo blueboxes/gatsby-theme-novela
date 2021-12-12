@@ -51,6 +51,7 @@ export interface IArticle {
   };
   timeToRead: number;
   date: string;
+  tags: string[];
 }
 
 interface IArticleQuery {
@@ -75,8 +76,10 @@ export type Template = React.FC<{
   pageContext: {
     article: IArticle;
     authors: IAuthor[];
+    disqus: boolean;
     mailchimp: boolean;
     next: IArticle[];
+    tags: boolean;
   };
   location: Location;
 }>
