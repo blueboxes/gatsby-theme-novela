@@ -11,8 +11,8 @@ jobs:
 
     steps:
     - name: Setup Node
+      uses: ./
       with:
-        uses: ./
         node-version: 14.x
     - name: Checkout repo
       uses: actions/checkout@v1.0.0
