@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/blueboxes/gatsby-theme-novela/compare/www@1.4.2...www@1.4.3) (2021-12-15)
+
+**Note:** Version bump only for package www
+
+
+
+
+
 ## [1.4.2](https://github.com/blueboxes/gatsby-theme-novela/compare/www@1.4.1...www@1.4.2) (2021-12-15)
 
 **Note:** Version bump only for package www
