@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
+    #- name: Setup Node
+    #  uses: actions/setup-node@v2
+    #  with:
+    #    node-version: 12.x
     - name: Checkout repo
       uses: actions/checkout@v1.0.0
     - name: Git Identity
